@@ -6,8 +6,9 @@ def scan_directory_for_games(directory):
         return    
     print(f"Scanning folder... ['{directory}']")
 
-    game_paths = get_exe_files_recursive(directory)
-    print_games_file_names(game_paths)
+    games_paths = get_exe_files_recursive(directory)
+    games_dict = generate_games_dictionary(games_paths)
+    print(games_dict)
 
 def get_exe_files_recursive(src_path):
     results = []
@@ -27,7 +28,11 @@ def get_exe_files_recursive(src_path):
 
     return results
 
-def print_games_file_names(paths_list):
-    for index, path in enumerate(paths_list, start=1):       
-        game_file_name = os.path.basename(path)
-        print(f"{index}. {game_file_name}")
+def generate_games_dictionary(paths):
+    results = {}
+
+    for path in paths:
+        name = os.path.basename(path).split('.')[0]
+        results[name] = path
+
+    return results
